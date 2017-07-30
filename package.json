@@ -1,0 +1,8 @@
+{
+  "name": "citibike-to-csv",
+  "version": "1.0.0",
+  "description": "Script to turn citibike tables into CSVs",
+  "main": "index.js",
+  "author": "Dean Silfen",
+  "license": "MIT"
+}

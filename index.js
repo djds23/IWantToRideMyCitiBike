@@ -34,3 +34,7 @@ class CitiBikeTable {
     return this._body;
   }
 }
+
+module.exports = {
+  CitiBikeTable: CitiBikeTable
+};

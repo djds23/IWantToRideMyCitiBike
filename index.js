@@ -8,7 +8,7 @@ class CitiBikeTable {
   toCSV (win) {
     let csvContent = "data:text/csv;charset=utf-8,";
     this.body().forEach((row) => {
-      let rowString = row.join(',') + '\n';
+      let rowString = row.join(', ') + '\n';
       csvContent += rowString;
     });
     let encodedUri = this.win.encodeURI(csvContent);
@@ -19,9 +19,8 @@ class CitiBikeTable {
   body () {
     if (this._body == null) {
       this._body = [
-        ["start_date", "end_date", "start_station", "end_station", "duration"]
+        ["start_station", "end_station", "start_date", "end_date", "duration_in_seconds"]
       ];
-      debugger;
       let elements = this.root.querySelectorAll('.ed-table__item');
       elements.forEach((rowElement) => {
         let newRow = [];
@@ -31,11 +30,19 @@ class CitiBikeTable {
         newRow.push(endText.pop());
         newRow.push(new Date(startText.pop()));
         newRow.push(new Date(endText.pop()));
-        newRow.push(rowElement.childNodes[2].innerText);
+        newRow.push(this.durationStringToSecondsNumber(rowElement.childNodes[2].innerText));
         this._body.push(newRow);
       });
     }
     return this._body;
+  }
+
+  durationStringToSecondsNumber(duration) {
+    let durationArray = duration.split(/.[a-z]/).filter( s => s.trim() != "").map(s => Number(s.trim()));
+    let seconds = durationArray.pop();
+    let minutesToSeconds = durationArray.pop() * 60;
+    let hoursToSeconds = ((hours) => hours != null ? hours * 3600 : 0)(durationArray.pop());
+    return seconds + minutesToSeconds + hoursToSeconds;
   }
 }
 
